@@ -1,0 +1,68 @@
+﻿@page "/bmi"
+
+<h3>BmiCalculator</h3>
+
+<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+    <label>
+        System:
+        <InputSelect @bind-Value="model.System">
+            <option value="Metric">Metric</option>
+            <option value="Imperial">Imperial</option>
+        </InputSelect>
+    </label>
+    <br />
+    <label>
+        Weight: (@(GetWeightUnit))
+        <InputNumber @bind-Value="model.Weight" />
+
+    </label>
+    <br />
+    <label>
+        Height: (@(GetHeightUnit))
+        <InputNumber @bind-Value="model.Height" />
+
+    </label>
+
+    <br />
+    <button type="submit">Submit</button>
+</EditForm>
+
+@if(showResult)
+{
+    <h1>
+        BMI: @result.Bmi (@result.BmiClassification)
+    </h1>
+    <h2>
+        @result.Summary
+    </h2>
+}
+
+@code {
+
+    private string GetHeightUnit => model.System == UnitSystem.Metric ? "cm" : "in";
+    private string GetWeightUnit => model.System == UnitSystem.Metric ? "kg" : "lbs";
+
+    class BmiModel
+    {
+        public double Weight { get; set; }
+        public double Height { get; set; }
+        public UnitSystem System { get; set; }
+
+    }
+
+
+
+    private BmiResult result = new();
+    private bool showResult = false;
+    private BmiModel model = new();
+    private void HandleValidSubmit()
+    {
+        var calculator = new MetricBmiCalculator();
+        var facade = new BmiCalculatorFacade(model.System);
+        result = facade.GetResult(model.Weight, model.Height);
+
+
+        showResult = true;
+
+    }
+}
