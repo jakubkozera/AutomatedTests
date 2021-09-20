@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyProject
 {
-    public class BmiDeterminator
+    public class BmiDeterminator : IBmiDeterminator
     {
         public BmiClassification DetermineBmi(double bmi) => bmi switch
         {
