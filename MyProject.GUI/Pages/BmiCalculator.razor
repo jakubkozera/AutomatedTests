@@ -58,7 +58,7 @@
     private void HandleValidSubmit()
     {
         var calculator = new MetricBmiCalculator();
-        var facade = new BmiCalculatorFacade(model.System);
+        var facade = new BmiCalculatorFacade(model.System, new BmiDeterminator());
         result = facade.GetResult(model.Weight, model.Height);
 
 
