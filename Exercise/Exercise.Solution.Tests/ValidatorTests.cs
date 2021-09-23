@@ -66,7 +66,7 @@ namespace Exercise.Solution.Tests
         }
 
         [Theory]
-        [MemberData(nameof(GetRangeList))]
+        [ClassData(typeof(ValidatorTestsData))]
         public void ValidateOverlapping_ForOverlappingDateRanges_ReturnsFalse(List<DateRange> ranges)
         {
             // arrange
